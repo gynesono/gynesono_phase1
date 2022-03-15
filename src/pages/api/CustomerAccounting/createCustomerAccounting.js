@@ -8,7 +8,7 @@ AWS.config.update({
 });
 
 var dynamodb = new AWS.DynamoDB();
-//AWS.config.update({accessKeyId: "fakeMyKeyId", secretAccessKey: "fakeSecretAccessKey", region: "REGION"});
+
 
 var params = {
     TableName : "patientbilling",

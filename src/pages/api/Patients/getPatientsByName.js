@@ -52,8 +52,7 @@ export default function handler(req, res) {
                 ":plname": patientLastName
             },
           //FilterExpression: "#pfn = :pfname AND #pln = :plname" patient_details#patient_last_name 
-          //FilterExpression: "contains(patient_details.patient_first_name, :pfname) AND contains(patient_details.patient_last_name, :plname)" 
-          FilterExpression: "contains(patient_details.patient_first_name, :pfname) OR contains(patient_details.patient_last_name, :plname)" 
+          FilterExpression: "contains(patient_details.patient_first_name, :pfname) AND contains(patient_details.patient_last_name, :plname)" 
         //  FilterExpression: "patient_details.patient_first_name = :pfname AND patient_details.patient_last_name = :plname" 
         };
 

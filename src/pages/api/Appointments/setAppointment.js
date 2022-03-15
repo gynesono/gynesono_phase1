@@ -65,7 +65,7 @@ export default function handler(req, res) {
 
 
     try {
-        var returnMessage = "Fetching the information";
+       
         docClient.update(params, function (err, data) {
             if (err) {
                 console.error("Unable to get records from table. Error JSON:", JSON.stringify(err, null, 2));
@@ -79,7 +79,7 @@ export default function handler(req, res) {
     } catch (err) {
         console.log("Error: ", err)
     }
-    res.status(200);
+    res.status(200).json("Appointment Updated Succesffully: " + returnMessage);
 
 
 }

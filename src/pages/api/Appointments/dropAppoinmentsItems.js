@@ -10,7 +10,7 @@ export default function handler(req, res) {
     var docClient = new AWS.DynamoDB.DocumentClient();
 
     var tableName = "Appointments";
-    var customerID = req.body.customerID;
+    var customerID =req.body.customerID;
 
 
     var appointmentID = req.body.appointmentID;

@@ -1,0 +1,46 @@
+"use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+(() => {
+var exports = {};
+exports.id = "pages/api/Appointments/setAppointmentsStatus";
+exports.ids = ["pages/api/Appointments/setAppointmentsStatus"];
+exports.modules = {
+
+/***/ "aws-sdk":
+/*!**************************!*\
+  !*** external "aws-sdk" ***!
+  \**************************/
+/***/ ((module) => {
+
+module.exports = require("aws-sdk");
+
+/***/ }),
+
+/***/ "(api)/./src/pages/api/Appointments/setAppointmentsStatus.js":
+/*!*************************************************************!*\
+  !*** ./src/pages/api/Appointments/setAppointmentsStatus.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ handler)\n/* harmony export */ });\n/**\r\n * Copyright 2022 GyneSono Technologies or its affiliates. All Rights Reserved.\r\n *\r\n * This file is licensed under the Apache License, Version 2.0 (the \"License\").\r\n * You may not use this file except in compliance with the License. A copy of\r\n * the License is located at\r\n *\r\n * \r\n *\r\n * This file is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR\r\n * CONDITIONS OF ANY KIND, either express or implied. See the License for the\r\n * specific language governing permissions and limitations under the License.\r\n*/ function handler(req, res) {\n    var AWS = __webpack_require__(/*! aws-sdk */ \"aws-sdk\");\n    AWS.config.update({\n        region: 'us-west-1',\n        accessKeyId: 'accessKeyId',\n        secretAccessKey: 'secretAccessKey',\n        endpoint: new AWS.Endpoint('http://localhost:8000')\n    });\n    var docClient = new AWS.DynamoDB.DocumentClient();\n    var tableName = \"Appointments\";\n    var appointmentID = req.body.appointmentID;\n    var customerID = req.body.customerID;\n    console.log(customerID);\n    console.log(\"Appointment ID: \", appointmentID);\n    var appointmentStatus = req.body.appointmentStatus;\n    var params = {\n        TableName: tableName,\n        Key: {\n            \"customer_id\": customerID,\n            \"appointment_id\": appointmentID\n        },\n        UpdateExpression: \"set appointment_status = :ad\",\n        ExpressionAttributeValues: {\n            \":ad\": appointmentStatus\n        },\n        ReturnValues: \"UPDATED_NEW\"\n    };\n    try {\n        docClient.update(params, function(err, data) {\n            if (err) {\n                console.error(\"Unable to get records from table. Error JSON:\", JSON.stringify(err, null, 2));\n            } else {\n                console.log(\"Fetched information\", JSON.stringify(data, null, 2));\n                res.json(JSON.stringify(data, null, 2));\n            }\n        });\n    } catch (err) {\n        console.log(\"Error: \", err);\n    }\n    res.status(200);\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9zcmMvcGFnZXMvYXBpL0FwcG9pbnRtZW50cy9zZXRBcHBvaW50bWVudHNTdGF0dXMuanMuanMiLCJtYXBwaW5ncyI6Ijs7OztBQUFBLEVBWUU7SUFFRSxHQUFHLENBQUNHLEdBQUcsR0FBR0MsT0FBTyxDQUFDLENBQVM7O1FBR3ZCRyxNQUFNLEVBQUUsQ0FBVztRQUNuQkMsV0FBVyxFQUFFLENBQWE7UUFDMUJDLGVBQWUsRUFBRSxDQUFpQjs7SUFFdEM7O0lBSUEsR0FBRyxDQUFDTSxTQUFTLEdBQUcsQ0FBYztJQUM5QixHQUFHLENBQUNDLGFBQWEsR0FBR2YsR0FBRyxDQUFDZ0IsSUFBSSxDQUFDRCxhQUFhO0lBQzFDLEdBQUcsQ0FBQ0UsVUFBVSxHQUFHakIsR0FBRyxDQUFDZ0IsSUFBSSxDQUFDQyxVQUFVO0dBQ3hCQSxRQUFVO0lBSXRCQyxPQUFPLENBQUNDLEVBQUFBLG1CQUFzQjtJQUc5QixHQUFHLENBQUNDO0lBR0osR0FBRyxDQUFDQyxNQUFNLEdBQUcsQ0FBQztRQUNWQyxTQUFTLEVBQUVSLFNBQVM7UUFDcEJTLEdBQUcsRUFBRSxDQUFDO1lBQ0YsQ0FBYSxjQUFFTixVQUFVOztRQUc3QixDQUFDO1FBQ0RPLGdCQUFnQixFQUFFLENBQThCO1FBQ2hEQyx5QkFBeUIsRUFBRSxDQUFDO1lBQ3hCLENBQUssTUFBRUwsaUJBQWlCO1FBRTVCLENBQUM7UUFDRE0sWUFBWSxFQUFFLENBQWE7SUFDL0IsQ0FBQztJQUdELEdBQUcsQ0FBQyxDQUFDO1FBQ0RmLFNBQVMsQ0FBQ04sTUFBTSxDQUFDZ0I7WUFDYixFQUFFO2dCQUNFSCxPQUFPLENBQUNXLEtBQUssQ0FBQyxDQUErQztZQUNqRSxDQUFDLE1BQU0sQ0FBQzs7Z0JBRUo1QixHQUFHLENBQUMrQixJQUFJLENBQUNGLElBQUksQ0FBQ0MsU0FBUyxDQUFDSCxJQUFJLEVBQUUsSUFBSSxFQUFFLENBQUM7WUFDekMsQ0FBQztRQUVMLENBQUM7SUFFTCxDQUFDLENBQUM7UUFDRVYsT0FBTyxDQUFDQyxHQUFHLENBQUMsQ0FBUyxVQUFFUSxHQUFHO0lBQzlCLENBQUM7SUFDRDFCLEdBQUcsQ0FBQ2dDO0FBR1IsQ0FBQyIsInNvdXJjZXMiOlsid2VicGFjazovL2d5bmVzb25vcGhhc2UyLy4vc3JjL3BhZ2VzL2FwaS9BcHBvaW50bWVudHMvc2V0QXBwb2ludG1lbnRzU3RhdHVzLmpzPzRjZDAiXSwic291cmNlc0NvbnRlbnQiOlsiLyoqXHJcbiAqIENvcHlyaWdodCAyMDIyIEd5bmVTb25vIFRlY2hub2xvZ2llcyBvciBpdHMgYWZmaWxpYXRlcy4gQWxsIFJpZ2h0cyBSZXNlcnZlZC5cclxuICpcclxuICogVGhpcyBmaWxlIGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBBcGFjaGUgTGljZW5zZSwgVmVyc2lvbiAyLjAgKHRoZSBcIkxpY2Vuc2VcIikuXHJcbiAqIFlvdSBtYXkgbm90IHVzZSB0aGlzIGZpbGUgZXhjZXB0IGluIGNvbXBsaWFuY2Ugd2l0aCB0aGUgTGljZW5zZS4gQSBjb3B5IG9mXHJcbiAqIHRoZSBMaWNlbnNlIGlzIGxvY2F0ZWQgYXRcclxuICpcclxuICogXHJcbiAqXHJcbiAqIFRoaXMgZmlsZSBpcyBkaXN0cmlidXRlZCBvbiBhbiBcIkFTIElTXCIgQkFTSVMsIFdJVEhPVVQgV0FSUkFOVElFUyBPUlxyXG4gKiBDT05ESVRJT05TIE9GIEFOWSBLSU5ELCBlaXRoZXIgZXhwcmVzcyBvciBpbXBsaWVkLiBTZWUgdGhlIExpY2Vuc2UgZm9yIHRoZVxyXG4gKiBzcGVjaWZpYyBsYW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlzc2lvbnMgYW5kIGxpbWl0YXRpb25zIHVuZGVyIHRoZSBMaWNlbnNlLlxyXG4qL1xyXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBoYW5kbGVyKHJlcSwgcmVzKSB7XHJcbiAgICB2YXIgQVdTID0gcmVxdWlyZShcImF3cy1zZGtcIik7XHJcblxyXG4gICAgQVdTLmNvbmZpZy51cGRhdGUoe1xyXG4gICAgICAgIHJlZ2lvbjogJ3VzLXdlc3QtMScsXHJcbiAgICAgICAgYWNjZXNzS2V5SWQ6ICdhY2Nlc3NLZXlJZCcsXHJcbiAgICAgICAgc2VjcmV0QWNjZXNzS2V5OiAnc2VjcmV0QWNjZXNzS2V5JyxcclxuICAgICAgICBlbmRwb2ludDogbmV3IEFXUy5FbmRwb2ludCgnaHR0cDovL2xvY2FsaG9zdDo4MDAwJyksXHJcbiAgICB9KTtcclxuXHJcbiAgICB2YXIgZG9jQ2xpZW50ID0gbmV3IEFXUy5EeW5hbW9EQi5Eb2N1bWVudENsaWVudCgpO1xyXG5cclxuICAgIHZhciB0YWJsZU5hbWUgPSBcIkFwcG9pbnRtZW50c1wiO1xyXG4gICAgdmFyIGFwcG9pbnRtZW50SUQgPSByZXEuYm9keS5hcHBvaW50bWVudElEO1xyXG4gICAgdmFyIGN1c3RvbWVySUQgPSByZXEuYm9keS5jdXN0b21lcklEO1xyXG4gICAgY29uc29sZS5sb2coY3VzdG9tZXJJRCk7XHJcblxyXG5cclxuXHJcbiAgICBjb25zb2xlLmxvZyhcIkFwcG9pbnRtZW50IElEOiBcIiwgYXBwb2ludG1lbnRJRCk7XHJcblxyXG5cclxuICAgIHZhciBhcHBvaW50bWVudFN0YXR1cyA9IHJlcS5ib2R5LmFwcG9pbnRtZW50U3RhdHVzO1xyXG4gICAgXHJcblxyXG4gICAgdmFyIHBhcmFtcyA9IHtcclxuICAgICAgICBUYWJsZU5hbWU6IHRhYmxlTmFtZSxcclxuICAgICAgICBLZXk6IHtcclxuICAgICAgICAgICAgXCJjdXN0b21lcl9pZFwiOiBjdXN0b21lcklELFxyXG4gICAgICAgICAgICBcImFwcG9pbnRtZW50X2lkXCI6IGFwcG9pbnRtZW50SURcclxuXHJcbiAgICAgICAgfSxcclxuICAgICAgICBVcGRhdGVFeHByZXNzaW9uOiBcInNldCBhcHBvaW50bWVudF9zdGF0dXMgPSA6YWRcIixcclxuICAgICAgICBFeHByZXNzaW9uQXR0cmlidXRlVmFsdWVzOiB7XHJcbiAgICAgICAgICAgIFwiOmFkXCI6IGFwcG9pbnRtZW50U3RhdHVzXHJcblxyXG4gICAgICAgIH0sXHJcbiAgICAgICAgUmV0dXJuVmFsdWVzOiBcIlVQREFURURfTkVXXCJcclxuICAgIH07XHJcblxyXG5cclxuICAgIHRyeSB7XHJcbiAgICAgICAgZG9jQ2xpZW50LnVwZGF0ZShwYXJhbXMsIGZ1bmN0aW9uIChlcnIsIGRhdGEpIHtcclxuICAgICAgICAgICAgaWYgKGVycikge1xyXG4gICAgICAgICAgICAgICAgY29uc29sZS5lcnJvcihcIlVuYWJsZSB0byBnZXQgcmVjb3JkcyBmcm9tIHRhYmxlLiBFcnJvciBKU09OOlwiLCBKU09OLnN0cmluZ2lmeShlcnIsIG51bGwsIDIpKTtcclxuICAgICAgICAgICAgfSBlbHNlIHtcclxuICAgICAgICAgICAgICAgIGNvbnNvbGUubG9nKFwiRmV0Y2hlZCBpbmZvcm1hdGlvblwiLCBKU09OLnN0cmluZ2lmeShkYXRhLCBudWxsLCAyKSk7XHJcbiAgICAgICAgICAgICAgICByZXMuanNvbihKU09OLnN0cmluZ2lmeShkYXRhLCBudWxsLCAyKSlcclxuICAgICAgICAgICAgfVxyXG5cclxuICAgICAgICB9KTtcclxuXHJcbiAgICB9IGNhdGNoIChlcnIpIHtcclxuICAgICAgICBjb25zb2xlLmxvZyhcIkVycm9yOiBcIiwgZXJyKVxyXG4gICAgfVxyXG4gICAgcmVzLnN0YXR1cygyMDApO1xyXG5cclxuXHJcbn0iXSwibmFtZXMiOlsiaGFuZGxlciIsInJlcSIsInJlcyIsIkFXUyIsInJlcXVpcmUiLCJjb25maWciLCJ1cGRhdGUiLCJyZWdpb24iLCJhY2Nlc3NLZXlJZCIsInNlY3JldEFjY2Vzc0tleSIsImVuZHBvaW50IiwiRW5kcG9pbnQiLCJkb2NDbGllbnQiLCJEeW5hbW9EQiIsIkRvY3VtZW50Q2xpZW50IiwidGFibGVOYW1lIiwiYXBwb2ludG1lbnRJRCIsImJvZHkiLCJjdXN0b21lcklEIiwiY29uc29sZSIsImxvZyIsImFwcG9pbnRtZW50U3RhdHVzIiwicGFyYW1zIiwiVGFibGVOYW1lIiwiS2V5IiwiVXBkYXRlRXhwcmVzc2lvbiIsIkV4cHJlc3Npb25BdHRyaWJ1dGVWYWx1ZXMiLCJSZXR1cm5WYWx1ZXMiLCJlcnIiLCJkYXRhIiwiZXJyb3IiLCJKU09OIiwic3RyaW5naWZ5IiwianNvbiIsInN0YXR1cyJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(api)/./src/pages/api/Appointments/setAppointmentsStatus.js\n");
+
+/***/ })
+
+};
+;
+
+// load runtime
+var __webpack_require__ = require("../../../webpack-api-runtime.js");
+__webpack_require__.C(exports);
+var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+var __webpack_exports__ = (__webpack_exec__("(api)/./src/pages/api/Appointments/setAppointmentsStatus.js"));
+module.exports = __webpack_exports__;
+
+})();

@@ -21,8 +21,8 @@ export default function handler(req, res) {
     });
     var docClient = new AWS.DynamoDB.DocumentClient();
     var tableName = "patientbilling";
-    var bill_id = 390;//req.body.bill_id;
-    var customer_id = 3;//req.body.customer_id;
+    var bill_id = 7;
+    var customer_id = 3;
     //var returnMessage = "";
     var params = {
             TableName: tableName,

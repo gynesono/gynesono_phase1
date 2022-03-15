@@ -7,22 +7,16 @@ class CustomerAccounting extends Component {
     response: '',
     post: '',
     responseToPost: '',
-    counterValue: '',
-    billDate:'',
-    sCategory:'',
+    customerID: '',
     selectServiceName: '',
+    counterValue: '',
     sCost: 0,
     discount: 0,
-    discountReason: '',
-    netAmount:0,
-    paymentMode:'',
-    paymentInfo:'',
-    paidAmount:0,
     balance: 0,
+    paidAmount:0,
+    netAmount:0,
     serviceName: [],
-    list: [],
   };
-  
   componentDidMount() {
     const tokenString = sessionStorage.getItem('token');
     const userToken = JSON.parse(tokenString);
@@ -32,9 +26,9 @@ class CustomerAccounting extends Component {
     this.setState({ customerID: customerID });
     this.handleBillId(customerID);
   }
-
   //Bill id
   handleBillId = async (customerID) => {
+    console.log(customerID);
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -48,10 +42,7 @@ class CustomerAccounting extends Component {
       .then(data => this.setState({ counterValue: data.Items[0].counter_value }));
   };
 
-  //bill date
   
-
-  //Service Category
   handleServiceCategory = () => {
     const requestOptions = {
       method: 'POST',
@@ -66,9 +57,8 @@ class CustomerAccounting extends Component {
       .then(response => response.json())
       //.then(data => console.log(data));
       .then(data => this.setState({ serviceName: data.Items }));
-     console.log(this.state.serviceName);
+    console.log(this.state.serviceName);
   }
-  
   //Service Name
   handleServiceName = () => {
     const requestOptions = {
@@ -85,105 +75,16 @@ class CustomerAccounting extends Component {
       .then(response => response.json())
       .then(data => this.setState({ sCost: data.Items[0].service_cost }));
   }
-  
   //calculate discount
   handleDiscount = () => {
     var temp = this.state.sCost - this.state.discount;
     return temp;
   }
-  
   //calculate Balance Amount
   handleBalance = () => {
     var temp1 = this.handleDiscount() - this.state.paidAmount;
     return temp1;
   }
-  
-  //InsertIntoTable
-  handleTable = (event) => {
-    event.preventDefault();
-    this.setState(state => {
-      const val = {
-        counterValue : this.state.counterValue,
-        billDate : this.state.billDate,
-        sCategory : this.state.sCategory,
-        selectServiceName : this.state.selectServiceName,
-        sCost : this.state.sCost,
-        discount : this.state.discount,
-        discountReason : this.state.discountReason,
-        netAmount : this.state.netAmount,
-        paymentMode : this.state.paymentMode,
-        paymentInfo : this.state.paymentInfo,
-        paidAmount : this.state.paidAmount,
-        balance : this.state.balance
-      }
-      const list = [...state.list,val];
-      return {
-        list,
-        counterValue: '',
-        billDate: '',
-        sCategory: '',
-        selectServiceName: '',
-        sCost: 0,
-        discount: 0,
-        discountReason: '',
-        netAmount: 0,
-        paymentMode: '',
-        paymentInfo: '',
-        paidAmount: 0,
-        balance: 0
-      };
-    }); 
-    this.handleBillId();
-  };
-  //call api from table
-  changeHandler = (counterValue,billDate,sCategory,selectServiceName,sCost,discount,discountReason,netAmount,paymentMode,paymentInfo,paidAmount,balance) => {
-     const requestOption = {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ 
-         bill_id : counterValue,
-         bill_date : billDate,
-         service_category : sCategory,    
-         service_name : selectServiceName,
-         gross_amount : sCost,
-         discount : discount,
-         discount_reason : discountReason,
-         net_amount : netAmount,
-         payment_mode : paymentMode,
-         payment_info : paymentInfo,
-         paid_amount : paidAmount,
-         balance : balance 
-        }) 
-       }
-       fetch('http://localhost:3000/api/CustomerAccounting/postCustomerAccounting', requestOption)
-       .then(response =>  console.log(response.status));       
-   };
-
-  onSubmitTable = (e) =>{
-  e.preventDefault();
-  for(var i=0; i < this.state.list.length; i++)
-  {
-     this.changeHandler(this.state.list[i].counterValue,this.state.list[i].billDate,this.state.list[i].sCategory,this.state.list[i].selectServiceName,this.state.list[i].sCost,this.state.list[i].discount,
-     this.state.list[i].discountReason,this.state.list[i].netAmount,this.state.list[i].paymentMode,this.state.list[i].paymentInfo,this.state.list[i].paidAmount,this.state.list[i].balance)
-  }
-}
-
-  //handle receipt_id
-  handleReceiptId = () => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        counterName: "receipt",
-        customerId: parseInt(this.state.customerID)
-      })
-    };
-    fetch('http://localhost:3000/api/Utils/getCounterValue', requestOptions)
-      .then(response => response.json())
-      //.then(data=>console.log(data));
-      .then(data => this.setState({ receiptID : data.Items[0].counter_value }));
-  };
-
   render() {
     return (
       <div className="main-wrapper">
@@ -192,7 +93,7 @@ class CustomerAccounting extends Component {
         <div className="page-wrapper">
           <div className="content">
             <div className="upper">
-              <form>
+              <form onSubmit={this.handleBillId}>
                 <div className="row">
                   <div className="col-lg-8 offset-lg-2"><br /><br />
                     <h4 className="page-title">Customer Accounting</h4>
@@ -204,13 +105,11 @@ class CustomerAccounting extends Component {
                       <div className="col-sm-2">
                         <label>Bill ID </label>
                       </div>
-                      <div className="col-sm-3">
-                      <input type="number" className="form-control" id="countervalue" value={this.state.counterValue} onChange={e => this.setState({ counterValue: e.target.value })}/>
-                        {/* {this.state.counterValue} */}</div>
+                      <div className="col-sm-3">{this.state.counterValue}</div>
                       <div className="col-sm-2"><label>Bill Date </label>
                       </div>
                       <div className="col-sm-3">
-                        <input class="form-control" type="date" id="billdate" value={this.state.billDate} onChange={e => this.setState({ billDate: e.target.value })} />
+                        <input class="form-control" type="date" />
                       </div>
                     </div>
 
@@ -230,7 +129,7 @@ class CustomerAccounting extends Component {
                         <label className="col-form-label">Service Category</label>
                       </div>
                       <div className="col-sm-3">
-                        <select className="form-control" aria-label="Default select example" value={this.state.sCategory} onChange={(e) => this.setState({ sCategory: e.target.value }, this.handleServiceCategory)}>
+                        <select className="form-control" aria-label="Default select example" value={this.state.value} onChange={(e) => this.setState({ sCategory: e.target.value }, this.handleServiceCategory)}>
                           <option>Select Service Category</option>
                           <option value="Bloodtest">Bloodtest</option>
                           <option value="Sonography">Sonography</option>
@@ -246,7 +145,7 @@ class CustomerAccounting extends Component {
                         <label for="Service Name" className="col-form-label">Service Name</label>
                       </div>
                       <div className="col-sm-3">
-                        <select className="form-control" aria-label="Default select example" value={this.state.selectServiceName} onChange={(e) => this.setState({ selectServiceName: e.target.value }, this.handleServiceName)}>
+                        <select className="form-control" aria-label="Default select example" value={this.state.value} onChange={(e) => this.setState({ selectServiceName: e.target.value }, this.handleServiceName)}>
                           <option>Select</option>
                           {
                             this.state.serviceName.map((item) => (
@@ -276,7 +175,7 @@ class CustomerAccounting extends Component {
                         <label className="col-form-label">Discount Reason</label>
                       </div>
                       <div className="col-sm-3">
-                        <select className="form-control" aria-label="Default select example" value={this.state.discountReason} onChange={e => this.setState({discountReason: e.target.value})} >
+                        <select className="form-control" aria-label="Default select example">
                           <option>Select</option>
                           <option value="Relative">Relative</option>
                           <option value="Family Friend">Family Friend</option>
@@ -289,8 +188,7 @@ class CustomerAccounting extends Component {
                         <label for="netAmount" className="col-form-label">Net Amount</label>
                       </div>
                       <div className="col-sm-3">
-                        {/* <input type="number" className="form-control" id="netAmount" value={this.state.netAmount && this.handleDiscount()} onChange={(e) => this.setState({netAmount: e.target.value})}/> */}
-                        <input type="number" className="form-control" id="netAmount" value={this.state.netAmount} onChange={(e) => this.setState({netAmount: e.target.value})}/>
+                        <input type="number" className="form-control" id="netAmount" value={(this.state.sCost && this.state.discount) ? this.handleDiscount() : 0 } onChange={(e) => this.setState({netAmount: e.target.value })}/>
                       </div>
                     </div>
                     <div className="mb-2 row">
@@ -298,7 +196,7 @@ class CustomerAccounting extends Component {
                         <label className="col-form-label">Payment Mode</label>
                       </div>
                       <div className="col-sm-3">
-                        <select className="form-control" aria-label="Default select example" id="paymentMode" value={this.state.paymentMode} onChange={e => this.setState({paymentMode: e.target.value })}>
+                        <select className="form-control" aria-label="Default select example" >
                           <option>Select</option>
                           <option value="UPI">UPI</option>
                           <option value="Internet Banking">Internet Banking</option>
@@ -310,7 +208,7 @@ class CustomerAccounting extends Component {
                         <label for="paymentinfo" className="col-form-label">Payment Information</label>
                       </div>
                       <div className="col-sm-3">
-                        <input type="text" className="form-control" id="paymentinfo" value={this.state.paymentInfo} onChange={e => this.setState({paymentInfo: e.target.value })}/>
+                        <input type="text" className="form-control" id="paymentinfo" />
                       </div>
                     </div>
                     <div className="mb-2 row">
@@ -323,8 +221,7 @@ class CustomerAccounting extends Component {
                         <label for="balance" className="col-form-label">Balance</label>
                       </div>
                       <div className="col-sm-3">
-                      {/* <input type="number" className="form-control" id="balance" value={this.handleBalance()} onChange={e => this.setState({balance: e.target.value})} disabled/> */}
-                        <input type="number" className="form-control" id="balance" value={this.state.balance} onChange={e => this.setState({balance: e.target.value})}/>
+                        <input type="number" className="form-control" id="balance" value={this.handleBalance()} disabled/>
                       </div>
                     </div>
                   </div>
@@ -334,7 +231,7 @@ class CustomerAccounting extends Component {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button className="btn btn-danger submit-btn" type="submit" onClick={this.handleTable}>Add</button>&nbsp;&nbsp;&nbsp;
+                    <button className="btn btn-danger submit-btn" type="submit">Add</button>&nbsp;&nbsp;&nbsp;
                     <button className="btn btn-danger submit-btn">Cancel</button>
                   </div>
                 </div>
@@ -362,23 +259,22 @@ class CustomerAccounting extends Component {
                   <th className="ant-table-cell">Action</th>
                 </tr>
               </thead>
-
-              {this.state.list.map((item,index=0) => (
-                    <tbody key={index+1}>
-                        <td>{item.counterValue}</td>
-                        <td>{item.billDate}</td>
+              {/* {displayTable.map((a) => (
+                    <tbody>
+                        <td>{a.counterValue}</td>
+                        <td>{a.date}</td>
                         <td>Avani</td>
                         <td>Singh</td>
-                        <td>{item.sCategory}</td>
-                        <td>{item.selectServiceName}</td>
-                        <td>{item.sCost}</td>
-                        <td>{item.discount}</td>
-                        <td>{item.discountReason}</td>
-                        <td>{item.netAmount}</td>
-                        <td>{item.paymentMode}</td>
-                        <td>{item.paymentInfo}</td>
-                        <td>{item.paidAmount}</td>
-                        <td>{item.balance}</td>
+                        <td>{a.serviceCategory}</td>
+                        <td>{a.serviceName}</td>
+                        <td>{a.grossamount}</td>
+                        <td>{a.discount}</td>
+                        <td>{a.discountreason}</td>
+                        <td>{a.netamount}</td>
+                        <td>{a.paymentmode}</td>
+                        <td>{a.paymentInfo}</td>
+                        <td>{a.paidamount}</td>
+                        <td>{a.balance}</td>
                         <td className="text-right">
                             <div className="dropdown dropdown-action">
                                 <a href="#" className="action-icon dropdown-toggle" data-toggle="dropdown"
@@ -392,16 +288,17 @@ class CustomerAccounting extends Component {
                             </div>
                         </td>
                       </tbody>
-                    ))}                 
+                    ))}                  */}
             </table>
             <div className="mb-2 row" >
               <div className="m-t-20 text-center">
-                <form onSubmit={this.onSubmitTable}>
-                  <button type="submit" className="btn btn-danger submit-btn" onClick={this.handleReceiptId}>Submit</button>&nbsp;&nbsp;&nbsp;
+                <form>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button type="submit" className="btn btn-danger submit-btn">Save</button>&nbsp;&nbsp;&nbsp;
                   <button type="submit" className="btn btn-danger submit-btn">Print</button>&nbsp;&nbsp;&nbsp;
                   <button className="btn btn-danger submit-btn">Cancel</button><br /><br /><br /></form>
-
-                  <p>receipt id is :- {this.state.receiptID}</p>
               </div>
             </div>
           </div>
@@ -412,12 +309,3 @@ class CustomerAccounting extends Component {
   }
 }
 export default CustomerAccounting;
-
-
-
-
-
-
-
-
-

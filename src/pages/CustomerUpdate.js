@@ -18,14 +18,17 @@ class CustomerRegistation extends Component {
         this.setState({ customerID: customerID });
         const roleString = sessionStorage.getItem('userRole');
         const userRole = JSON.parse(roleString);
-      
-     this.handleOnloadDate = (str) => {
+        this.setState({ userRole: userRole });
+        this.handleUpdate();
+       
+  
+    }
+    handleOnloadDate = (str) => {
         const m = str.split("/");
-        let str_date = m[1] + "/" + m[2] + "/" + m[0];
+        let str_date = m[2] + "-" + m[1] + "-" + m[0];
         return str_date;
       }
-        
-        this.setState({ userRole: userRole });
+    handleUpdate = () => {
         this.setState({ mn: this.props.mn});
         this.setState({ ptFirstName: this.props.ptFirstName});
         this.setState({ ptLastName: this.props.ptLastName});
@@ -38,15 +41,11 @@ class CustomerRegistation extends Component {
         this.setState({ pCity: this.props.pCity});
         this.setState({ pState: this.props.pState});
         this.setState({ pPortalConsent: this.props.pPortalConsent});
-        this.setState({ datee: this.props.datee});
+        this.setState({ datee: this.handleOnloadDate(this.props.datee)});
         this.setState({ obsNobs: this.props.obsNobs});
         this.setState({ pMaritalStatus: this.props.pMaritalStatus});
         this.setState({ pid: this.props.Patient_id});
-  
-
-        console.log(this.props.Patient_id);
     }
-    
    
     handleSubmit = async e => {
         e.preventDefault();
@@ -87,10 +86,16 @@ class CustomerRegistation extends Component {
 
         this.setState({ responseToPost: body });
         // After Appointment Added
-        alert("Customer Updated Successfully");
         
-
-
+        if (response.status===200) {
+            this.state.responseToPost="Customer Updated Successfully";
+           
+            }
+           else
+            {this.state.responseToPost="Unable to Update Customer ";}
+        
+     
+           
 
 
     };
@@ -108,6 +113,7 @@ class CustomerRegistation extends Component {
                                     <h4 className="page-title">Update Customer</h4>
                                 </div>
                             </div>
+                            <p style={{color:'pink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2">
                                     
@@ -140,13 +146,13 @@ class CustomerRegistation extends Component {
                                             <label>First Name<span className="text-danger">*</span></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input className="form-control" type="text" name="patientFirstName" value={this.state.ptFirstName} onChange={e => this.setState({ ptFirstName: e.target.value })} />
+                                            <input className="form-control" type="text" name="patientFirstName" value={this.state.ptFirstName} onChange={e => this.setState({ ptFirstName: e.target.value })} required/>
                                         </div>
                                         <div className="col-sm-2">
                                             <label>Last Name <span className="text-danger">*</span></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input className="form-control" type="text" name="patientLastName" value={this.state.ptLastName} onChange={e => this.setState({ ptLastName: e.target.value })} />
+                                            <input className="form-control" type="text" name="patientLastName" value={this.state.ptLastName} onChange={e => this.setState({ ptLastName: e.target.value })} required/>
                                         </div>
                                     </div>
 
@@ -184,7 +190,7 @@ class CustomerRegistation extends Component {
                                         </div>
                                         <div className="col-sm-4">
                                             <div className="">
-                                            <input type="date" id="myDate" className="form-control" name="date" pattern="\d{4}-\d{2}-\d{2}" value={this.state.dt} onChange={e => this.handleDate(e.target.value)} />
+                                            <input type="date" id="myDate" className="form-control" name="date" pattern="\d{4}-\d{2}-\d{2}" value={this.state.datee} onChange={e => this.handleDate(e.target.value)} />
                                             </div>
                                         </div>
 
@@ -229,7 +235,7 @@ class CustomerRegistation extends Component {
                                         </div>
                                         <div className="col-sm-4">
                                             <input type="text" id="uname" name="name" required size="10"
-           placeholder="Username"
+          
            minlength="10" maxlength="10" className="form-control"  value={this.state.mn} onChange={e => this.setState({ mn: e.target.value })} />
                                         </div>
                                         <div className="col-sm-2">
@@ -244,13 +250,13 @@ class CustomerRegistation extends Component {
                                             <label>City <span className="text-danger">*</span></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input className="form-control" type="text" name="pCity" value={this.state.pCity} onChange={e => this.setState({ pCity: e.target.value })} />
+                                            <input className="form-control" type="text" name="pCity" value={this.state.pCity} onChange={e => this.setState({ pCity: e.target.value })} required/>
                                         </div>
                                         <div className="col-sm-2">
                                             <label>State <span className="text-danger">*</span></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <select className="form-control" aria-label="Default select example" name="pState" value={this.state.pState} onChange={e => this.setState({ pState: e.target.value })}  >
+                                            <select className="form-control" aria-label="Default select example" name="pState" value={this.state.pState} onChange={e => this.setState({ pState: e.target.value })} required >
                                                 <option>Select</option>
                                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                                                 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>

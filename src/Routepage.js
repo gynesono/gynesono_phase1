@@ -29,7 +29,7 @@ return (
 <Route path="/reportPaymentsByCustomers" element={<ReportPaymentsByCustomers/>} />
 <Route path="/appointmentAdd" element={<AppointmentAdd/>} />
 <Route path="/customerAccounting" element={<CustomerAccounting/>} />
-<Route path="/appointmentUpdate/:appointment_id" element={<AppointmentUpdate/>} />
+<Route path="/appointmentUpdate" element={<AppointmentUpdate/>} />
 </Routes> 
 </BrowserRouter>
 </div>

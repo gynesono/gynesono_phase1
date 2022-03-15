@@ -40,7 +40,7 @@ export default function handler(req, res) {
 
 
     var returnMessage = "";
-
+   
     // Do not remove this line - shows how filter expression can be used to further
     // filter the query. So the Key Condition expression used partion key and sort key
     //and then one can filter the expression
@@ -49,6 +49,7 @@ export default function handler(req, res) {
     var params = {
         TableName: tableName,
         KeyConditionExpression: "#cid = :customerid and appointment_id >= :ctr",
+        ScanIndexForward: true, 
         ExpressionAttributeNames: {
             "#cid": "customer_id",
             "#appdate": "appointment_date"

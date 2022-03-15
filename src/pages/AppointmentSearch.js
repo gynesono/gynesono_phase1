@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Leftmenu from './Navigation/Leftmenu';
 import Header from './Navigation/Header';
 import CustomerRegistation from './CustomerRegistation';
+import AppointmentUpdate from './AppointmentUpdate';
 
 class AppointmentSearch extends Component {
   state = {
@@ -10,7 +11,8 @@ class AppointmentSearch extends Component {
     post: '',
     responseToPost: '',
     date: '',
-    IsAppointmentEdit: true,
+    Registation: true,
+    AppointmentEdit: true,
   };
 
   componentDidMount() {
@@ -54,7 +56,7 @@ class AppointmentSearch extends Component {
       "content-Type": "application/json",
       accessIDKey: this.state.Token
     };
-    window.location.reload(true);
+   
 
     const response = await fetch('http://localhost:3000/api/Appointments/setAppointmentsStatus', {
       method: 'POST',
@@ -66,7 +68,7 @@ class AppointmentSearch extends Component {
       }),
 
     });
-
+    window.location.reload(true);
   }
 
   handleSubmit = async e => {
@@ -90,17 +92,39 @@ class AppointmentSearch extends Component {
   };
 
   handleName = (items) => {
-    this.setState({ FirstName: items.patient_details.patient_first_name });
+   this.setState({ FirstName: items.patient_details.patient_first_name });
     this.setState({ LastName: items.patient_details.patient_last_name });
     this.setState({ Contact: items.patient_details.patient_contact_no });
-    this.setState({ IsAppointmentEdit: false });
+    this.setState({ Registation: false });
+    console.log(items)
+  }
+  
+  handleEdit = (items) => {
+    this.setState({ FName: items.patient_details.patient_first_name });
+    this.setState({ LName: items.patient_details.patient_last_name });
+    this.setState({ Mobile: items.patient_details.patient_contact_no });
+    this.setState({ appointment_ID: items.appointment_id });
+    this.setState({ Remark: items.patient_details.patient_appointment_remarks });
+    this.setState({ AppTime: items.appointment_time });
+    this.setState({ AppDate: items.appointment_date });
+    
+    
+
+    this.setState({ AppointmentEdit: false });
     console.log(items)
   }
 
   render() {
-    if (!this.state.IsAppointmentEdit) {
+    if (!this.state.Registation) {
       return (
         <CustomerRegistation ptFirstName={this.state.FirstName} ptLastName={this.state.LastName} mn={this.state.Contact} />)
+    }
+    else 
+    if(!this.state.AppointmentEdit){
+      return(
+        <AppointmentUpdate ptFirstName={this.state.FName} ptLastName={this.state.LName} mn={this.state.Mobile} datee={this.state.AppDate} tm={this.state.AppTime} rm={this.state.Remark} appointment_id={this.state.appointment_ID} />
+      )
+
     }
     else {
       return (
@@ -125,7 +149,7 @@ class AppointmentSearch extends Component {
                     <label className="focus-label">Appointment Date</label>
                   </div>
                   <div className="col-xl-2">
-                    <input type="date" className="form-control floating" value={this.state.aptDate1} onChange={e => this.handleDate(e.target.value)} />
+                    <input type="date" className="form-control floating" value={this.state.aptDate1} onChange={e => this.handleDate(e.target.value)} required/>
                   </div>
 
 
@@ -146,7 +170,7 @@ class AppointmentSearch extends Component {
                     <th className="ant-table-cell">Remark</th>
                     <th className="ant-table-cell">Status</th>
                     <th className="ant-table-cell">Register</th>
-                 <th className="ant-table-cell">Action</th>
+                    <th className="ant-table-cell">Action</th>
 
                   </tr>
                 </thead>
@@ -177,8 +201,11 @@ class AppointmentSearch extends Component {
                             <a className="action-icon dropdown-toggle" data-toggle="dropdown"
                               aria-expanded="false"><i className="fa fa-ellipsis-v"></i></a>
                             <div className="dropdown-menu dropdown-menu-right">
-                              <Link to={"/appointmentUpdate/" + items.appointment_id} className="dropdown-item"><i
-                                className="fa fa-pencil m-r-5"></i> Edit</Link>
+                              {/* <Link to={"/appointmentUpdate/" + items.appointment_id} className="dropdown-item"><i
+                                className="fa fa-pencil m-r-5"></i> Edit</Link> */}
+                                <button  className="dropdown-item" onClick={() => this.handleEdit(items)}><i
+                                className="fa fa-pencil m-r-5"></i> Edit</button>
+
                               <button className="dropdown-item" data-toggle="modal"
                                 data-target="#delete_patient" onClick={() => this.CancelStatus(items.appointment_id)}><i className="fa fa-trash-o m-r-5"></i> Cancel</button>
                             </div>

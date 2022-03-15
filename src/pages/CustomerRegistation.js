@@ -40,6 +40,10 @@ class CustomerRegistation extends Component {
     return str_date;
   }
 
+  Cancel = ()=>
+    {
+        window.location.reload(true);
+    }
 
     handleSubmit = async e => {
         e.preventDefault();
@@ -72,22 +76,18 @@ class CustomerRegistation extends Component {
                 patientMaritalStatus: this.state.pMaritalStatus
             }),
         });
-
+      
         const body = await response.text();
 
         this.setState({ responseToPost: body });
-        // After Appointment Added
+        // this.setState({ IsCustomerAdded: false });
+        console.log(response);
        
-        
-
-
-
-
     };
+   
     
-    
-
     render() {
+       
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="main-wrapper">
@@ -99,7 +99,9 @@ class CustomerRegistation extends Component {
                                 <div className="col-lg-8 offset-lg-2">
                                     <h4 className="page-title">Register Customer</h4>
                                 </div>
+                               
                             </div>
+                            <p style={{color:'pink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2">
                                     
@@ -132,13 +134,13 @@ class CustomerRegistation extends Component {
                                             <label>First Name<span className="text-danger">*</span></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input className="form-control" type="text" name="patientFirstName" value={this.state.ptFirstName} onChange={e => this.setState({ ptFirstName: e.target.value })} />
+                                            <input className="form-control" type="text" name="patientFirstName" value={this.state.ptFirstName} onChange={e => this.setState({ ptFirstName: e.target.value })} required/>
                                         </div>
                                         <div className="col-sm-2">
                                             <label>Last Name <span className="text-danger">*</span></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input className="form-control" type="text" name="patientLastName" value={this.state.ptLastName} onChange={e => this.setState({ ptLastName: e.target.value })} />
+                                            <input className="form-control" type="text" name="patientLastName" value={this.state.ptLastName} onChange={e => this.setState({ ptLastName: e.target.value })} required/>
                                         </div>
                                     </div>
 
@@ -223,7 +225,7 @@ class CustomerRegistation extends Component {
                                         <div className="col-sm-4">
                                         
                                             <input type="text" id="uname" name="name" required size="10"
-           placeholder="Username"
+   
            minlength="10" maxlength="10" className="form-control" value={this.state.mn} onChange={e => this.setState({ mn: e.target.value })} />
                                         </div>
                                         <div className="col-sm-2">
@@ -238,13 +240,13 @@ class CustomerRegistation extends Component {
                                             <label>City <span className="text-danger">*</span></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input className="form-control" type="text" name="pCity" value={this.state.pCity} onChange={e => this.setState({ pCity: e.target.value })} />
+                                            <input className="form-control" type="text" name="pCity" value={this.state.pCity} onChange={e => this.setState({ pCity: e.target.value })} required/>
                                         </div>
                                         <div className="col-sm-2">
                                             <label>State <span className="text-danger">*</span></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <select className="form-control" aria-label="Default select example" name="pState" value={this.state.pState} onChange={e => this.setState({ pState: e.target.value })}  >
+                                            <select className="form-control" aria-label="Default select example" name="pState" value={this.state.pState} onChange={e => this.setState({ pState: e.target.value })} required >
                                                 <option>Select</option>
                                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                                                 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
@@ -300,7 +302,7 @@ class CustomerRegistation extends Component {
                                         </div>
                                         <div className="col-xl-4">&nbsp;<Link to="/customeraccounting" className="btn btn-danger submit-btn">Billing</Link>
                                         </div>
-                                        <div className="col-xl-4">&nbsp;<Link to="/customerSearch" className="btn btn-danger submit-btn">Cancel</Link>
+                                        <div className="col-xl-4">&nbsp;<button  className="btn btn-danger submit-btn" onClick={ () => this.Cancel()}>Cancel</button>
                                         </div>
                                        
                                     </div>

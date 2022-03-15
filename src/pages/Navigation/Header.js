@@ -55,10 +55,10 @@ class Header extends Component {
             >
               <i className="fa fa-bars"></i>
             </a>
-            <ul className="nav user-menu float-right">
+            <ul class="nav user-menu float-right">
 
               <li className="nav-item dropdown has-arrow">
-                <a href="" className="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                <a href="" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                   <span>{this.state.userName}</span>
                 </a>
                 <div className="dropdown-menu">

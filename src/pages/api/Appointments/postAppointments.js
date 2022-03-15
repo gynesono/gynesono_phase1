@@ -38,47 +38,6 @@ export default function handler(req, res) {
     var appointmentStatus = req.body.appointmentStatus;
     var returnMessage = "";
     var http = require('http');
-    var counter=0;
-    var params = {
-        TableName: tableName,
-        KeyConditionExpression: "#cid = :customerid and appointment_id > :ctr",
-        ExpressionAttributeNames: {
-            "#cid": "customer_id",
-            "#sc": "patient_first_name",
-            "#sn": "patient_last_name",
-            // "#mn": "patient_contact_no"
-        },
-        ExpressionAttributeValues: {
-            ":customerid": customer_id,
-            ":ctr": counter,
-            ":sc": patientLastName,
-            ":sn":patientLastName,
-            // ":mn":patientMobileNumber
-
-        },
-        FilterExpression: "#sn = :sn AND #sc = :sc"
-    };
-    try {
-        returnMessage = "Fetching the information";
-        docClient.query(params, function (err, data) {
-            if (err) {
-                console.error("Unable to get records from table. Error JSON:", JSON.stringify(err, null, 2));
-            } else {
-                console.log("Fetched information", JSON.stringify(data, null, 2));
-               var count=0;
-                var appointmentID;
-                data.Items.forEach(function(item) {
-                    count = count+1;
-                    appointmentID = parseInt(item.appointment_id);
-                    
-                });
-
-                if (count>0){
-                    console.log("Cannot Add  Appointment");
-               }
-               else
-               {
-                    console.log("Add");
 
     var data = {
         counterName: tableName,
@@ -163,14 +122,7 @@ export default function handler(req, res) {
     res.status(200).json("Added Appointment: " + returnMessage);
 
 
-               
-               }
-            }   
-        
 
-        });
 
-    } catch (err) {
-        console.log("Error: ", err)
-    }
+
 }

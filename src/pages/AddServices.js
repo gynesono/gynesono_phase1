@@ -104,13 +104,16 @@ class AddServices extends Component {
 
         }
         // After Appointment Added
-        window.location.reload(true);
+       
         const response = await fetch('http://localhost:3000/api/Admin/postBillingMasterData', requestOptions)
         //.then(response => alert('Response! added' ))
         // .then(response => alert('Response! ' + error.message)).catch(error => alert('Error! ' + error.message))
         const body = await response.json();
-        this.setState({ responseToPost: body.Items });
-      
+        // this.setState({ responseToPost: body.Items });
+        // this.setState({ responseToPost: body.Items });
+const bodyString = JSON.stringify(body);
+window.alert(bodyString);
+
 
     };
 
@@ -129,14 +132,15 @@ class AddServices extends Component {
                         <form onSubmit={this.handleSubmit}>
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2">
-
+                    
+                           
                                     <div className="mb-2 row">
                                         <div className="col-sm-2">
                                             <label>Service Category</label>
                                         </div>
 
                                         <div className="col-sm-4">
-                                            <select className="form-control" aria-label="Default select example" value={this.state.sCategory} onChange={(e) => this.setState({ sCategory: e.target.value })}>
+                                            <select className="form-control" aria-label="Default select example" value={this.state.sCategory} onChange={(e) => this.setState({ sCategory: e.target.value })} required>
                                                 <option>Select</option>
                                                 <option value="Bloodtest" >Bloodtest</option>
                                                 <option value="Sonography">Sonography</option>
@@ -152,7 +156,7 @@ class AddServices extends Component {
                                             <label>Service Name</label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" className="form-control" name="sName" value={this.state.sName} onChange={e => this.setState({ sName: e.target.value })} />
+                                            <input type="text" className="form-control" name="sName" value={this.state.sName} onChange={e => this.setState({ sName: e.target.value })} required />
                                         </div>
                                     </div>
 
@@ -161,7 +165,7 @@ class AddServices extends Component {
                                             <label>Service Cost</label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" className="form-control" maxlength="10" name="sCost" value={this.state.sCost} onChange={e => this.setState({ sCost: e.target.value })} />
+                                            <input type="text" className="form-control" maxlength="10" name="sCost" value={this.state.sCost} onChange={e => this.setState({ sCost: e.target.value })} required />
                                         </div>
 
                                     </div>
@@ -216,8 +220,19 @@ class AddServices extends Component {
                                                             data-target="#delete_patient" onClick={() => this.handleEdit(items.service_id)}><i
                                                                 className="fa fa-pencil m-r-5"></i> Edit</button>
 
-                                                        <button className="dropdown-item" data-toggle="modal"
-                                                            data-target="#delete_patient" onClick={() => this.DeleteItems(items.service_id)}><i className="fa fa-trash-o m-r-5"></i> Delete</button>
+                                                        <button
+                                                            className="dropdown-item" data-toggle="modal"
+                                                            onClick={() => {
+                                                                const confirmBox = window.confirm(
+                                                                    "Do you really want to delete Patient?"
+                                                                )
+                                                                if (confirmBox === true) {
+                                                                    this.DeleteItems(items.service_id)
+                                                                }
+                                                            }}><i className="fa fa-trash-o m-r-5"></i> Delete</button>
+
+                                                        {/* <button className="dropdown-item" data-toggle="modal"
+                                                            data-target="#delete_patient" onClick={() => this.DeleteItems(items.service_id)}><i className="fa fa-trash-o m-r-5"></i> Delete</button> */}
                                                     </div>
                                                 </div>
                                             </td>

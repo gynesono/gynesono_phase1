@@ -7,7 +7,6 @@ class AppointmentAdd extends Component {
         response: '',
         post: '',
         responseToPost: '',
-
     };
 
     componentDidMount() {
@@ -29,6 +28,10 @@ class AppointmentAdd extends Component {
         let str_date = m[2] + "/" + m[1] + "/" + m[0];
         this.setState({ datee: str_date })
 
+    }
+    Cancel = ()=>
+    {
+        window.location.reload(true);
     }
 
 
@@ -53,20 +56,37 @@ class AppointmentAdd extends Component {
                 appointmentStatus: 'Open'
             }),
         }
-        const response = await fetch('http://localhost:3000/api/Appointments/postAppointments', requestOptions).catch(error => alert('Error! ' + error.message))
+        const response = await fetch('http://localhost:3000/api/Appointments/postAppointments', requestOptions)
+        // .then(error => alert('Response! ' + error.returnMessage)).catch(error => alert('Error! ' + error.returnMessage))
+        // .catch(error => alert('Error! ' + error.message))
         //.then(response => alert('Response! added' ))
         // .then(response => alert('Response! ' + error.message)).catch(error => alert('Error! ' + error.message))
+        
         const body = await response.text();
 
         this.setState({ responseToPost: body });
+  
 
-        window.location.reload(true);
+        // if (response.status===200) {
+        //     // alert("Appointment Added Successfully");
+        //     this.state.responseToPost="Appointment Added Successfully";
+           
+        //     }
+        //    else
+        //     {this.state.responseToPost=body;
+        // }
 
-
+        
+            
 
     };
 
     render() {
+        // if (!this.state.IsAppointmentAdded) {
+        //     alert("Appointment Added Successfully");
+        //     window.location.reload(true);
+        //     }
+          
         return (
 
             <form onSubmit={this.handleSubmit}>
@@ -79,6 +99,7 @@ class AppointmentAdd extends Component {
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2"><h4 className="page-title">Add Appointment</h4></div>
                             </div>
+                            <p style={{color:'pink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2">
 
@@ -87,14 +108,14 @@ class AppointmentAdd extends Component {
                                             <label>First Name</label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" className="form-control" name="patientFirstName" value={this.state.ptFirstName} onChange={e => this.setState({ ptFirstName: e.target.value })} />
+                                            <input type="text" className="form-control" name="patientFirstName" value={this.state.ptFirstName} onChange={e => this.setState({ ptFirstName: e.target.value })} required />
 
                                         </div>
                                         <div className="col-sm-2">
                                             <label>Last Name</label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" className="form-control" name="patientLastName" value={this.state.ptLastName} onChange={e => this.setState({ ptLastName: e.target.value })} />
+                                            <input type="text" className="form-control" name="patientLastName" value={this.state.ptLastName} onChange={e => this.setState({ ptLastName: e.target.value })} required />
                                         </div>
                                     </div>
                                     <div className="mb-2 row">
@@ -102,14 +123,14 @@ class AppointmentAdd extends Component {
                                             <label>Date</label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="date" id="myDate" className="form-control" name="date" pattern="\d{4}-\d{2}-\d{2}" value={this.state.dt} onChange={e => this.handleDate(e.target.value)} />
+                                            <input type="date" id="myDate" className="form-control" name="date" pattern="\d{4}-\d{2}-\d{2}" value={this.state.dt} onChange={e => this.handleDate(e.target.value)} required/>
 
                                         </div>
                                         <div className="col-sm-2">
                                             <label>Time</label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="time" className="form-control" name="time" value={this.state.tm} onChange={e => this.setState({ tm: e.target.value })} />
+                                            <input type="time" className="form-control" name="time" value={this.state.tm} onChange={e => this.setState({ tm: e.target.value })} required />
                                         </div>
                                     </div>
                                     <div className="mb-2 row">
@@ -118,8 +139,8 @@ class AppointmentAdd extends Component {
                                         </div>
                                         <div className="col-sm-4">
                                             <input type="text" id="uname" name="patientMobileNumber" required size="10"
-           placeholder="Username"
-           minlength="10" maxlength="10"   className="form-control"   value={this.state.mn} onChange={e => this.setState({ mn: e.target.value })} />
+                                              
+                                                minlength="10" maxlength="10" className="form-control"value={this.state.mn} onChange={e => this.setState({ mn: e.target.value })} />
                                         </div>
                                         <div className="col-sm-2">
                                             <label>Remark</label>
@@ -131,7 +152,7 @@ class AppointmentAdd extends Component {
                                     <div className="mb-2 row">
                                         <div className="m-t-20 text-center">
                                             <button className="btn btn-danger submit-btn" type="submit" >Create Appointment</button> &nbsp;
-                                            <Link to="/appoinmentSearch" className="btn btn-danger submit-btn">Cancel</Link>
+                                           <button className="btn btn-danger submit-btn" onClick={ () => this.Cancel()}>Cancel</button>
                                         </div>
                                     </div>
                                 </div>

@@ -10,7 +10,7 @@ class CustomerSearch extends Component {
         post: '',
         responseToPost: '',
         date: '',
-        IsAppointmentEdit: true,
+        IsCustomerEdit: true,
     };
 
     componentDidMount() {
@@ -29,19 +29,29 @@ class CustomerSearch extends Component {
             "content-Type": "application/json",
             accessIDKey: this.state.Token
         };
+        var ptLastName = this.state.ptLastName;
+        var ptFirstName = this.state.ptFirstName;
+        if (!ptLastName) {
+            this.setState({ ptLastName: "" });
+        }
+        if (!ptFirstName) {
+            this.setState({ ptFirstName: "" });
+        }
+        if (ptLastName == null) { ptLastName = ""; }
         const response = await fetch('http://localhost:3000/api/Patients/getPatientsByName', {
             method: 'POST',
             headers: requestHeader,
+
             body: JSON.stringify({
+
                 customerID: this.state.customerID,
                 patientFirstName: this.state.ptFirstName,
                 patientLastName: this.state.ptLastName
             }),
+
         });
 
         const body = await response.json();
-
-
 
         this.setState({ responseToPost: body.Items });
     };
@@ -59,7 +69,6 @@ class CustomerSearch extends Component {
                 customerID: this.state.customerID
             }),
         });
-
 
     }
     handleUpdate = (items) => {
@@ -80,12 +89,12 @@ class CustomerSearch extends Component {
         this.setState({ PAge: items.patient_details.patient_age });
         this.setState({ pCity: items.patient_details.patient_city });
 
-        this.setState({ IsAppointmentEdit: false });
+        this.setState({ IsCustomerEdit: false });
         console.log(items)
     }
 
     render() {
-        if (!this.state.IsAppointmentEdit) {
+        if (!this.state.IsCustomerEdit) {
             return (
 
                 <CustomerUpdate ptFirstName={this.state.FirstName} ptLastName={this.state.LastName} mn={this.state.Contact}
@@ -174,8 +183,16 @@ class CustomerSearch extends Component {
                                                                     <div className="dropdown-menu dropdown-menu-right">
                                                                         <button className="dropdown-item" onClick={() => this.handleUpdate(items)}><i
                                                                             className="fa fa-pencil m-r-5"></i> Edit</button>
-                                                                        <button className="dropdown-item" data-toggle="modal"
-                                                                            data-target="#delete_patient" onClick={() => this.DeleteItems(items.Patient_id)}><i className="fa fa-trash-o m-r-5"></i> Delete</button>
+                                                                        <button
+                                                                            className="dropdown-item" data-toggle="modal"
+                                                                            onClick={() => {
+                                                                                const confirmBox = window.confirm(
+                                                                                    "Do you really want to delete Patient?"
+                                                                                )
+                                                                                if (confirmBox === true) {
+                                                                                    this.DeleteItems(items.Patient_id)
+                                                                                }
+                                                                            }}><i className="fa fa-trash-o m-r-5"></i> Delete</button>
 
                                                                     </div>
                                                                 </div>
