@@ -1,0 +1,7 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/api/Billing/getBillingMasterData": "pages/api/Billing/getBillingMasterData.js",
+  "/api/Billing/getBillingMasterDataSName": "pages/api/Billing/getBillingMasterDataSName.js"
+}
