@@ -50,10 +50,12 @@ class AppointmentUpdate extends Component {
     let str_date = m[2] + "-" + m[1] + "-" + m[0];
     return str_date;
   }
+
   Cancel = ()=>
   {
       window.location.reload(true);
   }
+  
   handleSubmit = async e => {
     e.preventDefault();
     const requestHeader = {
@@ -64,7 +66,7 @@ class AppointmentUpdate extends Component {
     const response = await fetch('http://localhost:3000/api/Appointments/setAppointment', {
       method: 'POST',
       headers: requestHeader,
-
+     
       body: JSON.stringify({
         customerID: this.state.customerID,
         appointmentID: this.state.appointment_id,
@@ -81,14 +83,9 @@ class AppointmentUpdate extends Component {
     const body = await response.text();
 
         this.setState({ responseToPost: body });
-    // if (response.status===200) {
-    //   // alert("Appointment Updated Successfully");
-    //   this.state.responseToPost="Appointment Updated Successfully";
-    //   }
-    //  else 
-    //   {this.state.responseToPost="Unable To Update Appointment " ;}
+    
   
-
+  
 
   };
 
@@ -106,7 +103,7 @@ class AppointmentUpdate extends Component {
                 <div className="col-lg-8 offset-lg-2"><h4 className="page-title">Update Appointment</h4></div>
               </div>
 
-              <p style={{color:'pink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>
+              <p style={{color:'HotPink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>
               <div className="row">
                 <div className="col-lg-8 offset-lg-2">
                   
@@ -174,6 +171,7 @@ class AppointmentUpdate extends Component {
     );
   }
 }
+
 export default AppointmentUpdate;
 
 

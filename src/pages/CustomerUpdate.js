@@ -23,11 +23,20 @@ class CustomerRegistation extends Component {
        
   
     }
-    handleOnloadDate = (str) => {
+    handleDateSubmit = (str) => {
+
+        const m = str.split("-");
+        let str_date = m[2] + "/" + m[1] + "/" + m[0];
+    
+        return str_date;
+    
+      }
+      handleOnloadDate = (str) => {
         const m = str.split("/");
         let str_date = m[2] + "-" + m[1] + "-" + m[0];
         return str_date;
       }
+
     handleUpdate = () => {
         this.setState({ mn: this.props.mn});
         this.setState({ ptFirstName: this.props.ptFirstName});
@@ -72,7 +81,7 @@ class CustomerRegistation extends Component {
                 patientFirstName: this.state.ptFirstName,
                 patientLastName: this.state.ptLastName,
                 patientMobileNumber: this.state.mn,
-                LMP: this.state.datee,
+                LMP: this.handleDateSubmit(this.state.datee),
                 ObsNonObs: this.state.obsNobs,
                 patientMaritalStatus: this.state.pMaritalStatus
 
@@ -85,6 +94,22 @@ class CustomerRegistation extends Component {
         const body = await response.text();
 
         this.setState({ responseToPost: body });
+        this.setState({psalu:""});
+        this.setState({pGender:""});
+        this.setState({PAge:""});
+        this.setState({pEmail:""});
+        this.setState({pHusbandName:""});
+        this.setState({pAddress:""});
+        
+        this.setState({pCity:""});
+        this.setState({pState:""});
+        this.setState({pPortalConsent:""});
+        this.setState({ptFirstName:""});
+        this.setState({ptLastName:""});
+        this.setState({mn:""});
+        this.setState({datee:''});
+        this.setState({obsNobs:""});
+        this.setState({pMaritalStatus:""});
         // After Appointment Added
         
         if (response.status===200) {
@@ -113,7 +138,7 @@ class CustomerRegistation extends Component {
                                     <h4 className="page-title">Update Customer</h4>
                                 </div>
                             </div>
-                            <p style={{color:'pink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>
+                            <p style={{color:'HotPink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2">
                                     
@@ -169,7 +194,7 @@ class CustomerRegistation extends Component {
                                                 </div>
                                                 <div className="form-check-inline">
                                                     <label className="form-check-label">
-                                                        <input type="radio" name="gender" value="Female" className="form-check-input" />Female
+                                                        <input type="radio" name="gender" checked="checked" value="Female" className="form-check-input" />Female
                                                     </label>
                                                 </div>
                                             </div>
@@ -190,7 +215,9 @@ class CustomerRegistation extends Component {
                                         </div>
                                         <div className="col-sm-4">
                                             <div className="">
-                                            <input type="date" id="myDate" className="form-control" name="date" pattern="\d{4}-\d{2}-\d{2}" value={this.state.datee} onChange={e => this.handleDate(e.target.value)} />
+                                            {/* <input type="date" id="myDate" className="form-control" name="date" pattern="\d{4}-\d{2}-\d{2}" value={this.state.datee} onChange={e => this.handleDate(e.target.value)} /> */}
+                                            <input type="date" className="form-control" name="date" value={this.state.datee} onChange={e => this.setState({ datee: e.target.value })} required/>
+   
                                             </div>
                                         </div>
 
@@ -242,7 +269,7 @@ class CustomerRegistation extends Component {
                                             <label>Email </label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input className="form-control" type="text" name="pEmail" value={this.state.pEmail} onChange={e => this.setState({ pEmail: e.target.value })} />
+                                            <input className="form-control" type="email" pattern=".+@gmail\.com" name="pEmail" placeholder="@gmail.com" value={this.state.pEmail} onChange={e => this.setState({ pEmail: e.target.value })} />
                                         </div>
                                     </div>
                                     <div className="mb-2 row">

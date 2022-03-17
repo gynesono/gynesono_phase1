@@ -29,6 +29,7 @@ class AppointmentAdd extends Component {
         this.setState({ datee: str_date })
 
     }
+    
     Cancel = ()=>
     {
         window.location.reload(true);
@@ -41,6 +42,7 @@ class AppointmentAdd extends Component {
             "content-Type": "application/json",
             accessIDKey: this.state.Token
         };
+        
         const requestOptions = {
             method: 'POST',
             headers: requestHeader,
@@ -57,36 +59,22 @@ class AppointmentAdd extends Component {
             }),
         }
         const response = await fetch('http://localhost:3000/api/Appointments/postAppointments', requestOptions)
-        // .then(error => alert('Response! ' + error.returnMessage)).catch(error => alert('Error! ' + error.returnMessage))
-        // .catch(error => alert('Error! ' + error.message))
-        //.then(response => alert('Response! added' ))
-        // .then(response => alert('Response! ' + error.message)).catch(error => alert('Error! ' + error.message))
         
         const body = await response.text();
 
         this.setState({ responseToPost: body });
-  
-
-        // if (response.status===200) {
-        //     // alert("Appointment Added Successfully");
-        //     this.state.responseToPost="Appointment Added Successfully";
-           
-        //     }
-        //    else
-        //     {this.state.responseToPost=body;
-        // }
-
-        
-            
+        this.setState({ptFirstName:""});
+        this.setState({ptLastName:""});
+        this.setState({mn:""});
+        this.setState({rm:""});
+        this.setState({tm:""});
+        this.setState({datee:''});
+       
 
     };
 
     render() {
-        // if (!this.state.IsAppointmentAdded) {
-        //     alert("Appointment Added Successfully");
-        //     window.location.reload(true);
-        //     }
-          
+      
         return (
 
             <form onSubmit={this.handleSubmit}>
@@ -99,7 +87,7 @@ class AppointmentAdd extends Component {
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2"><h4 className="page-title">Add Appointment</h4></div>
                             </div>
-                            <p style={{color:'pink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>
+                            <p style={{color:'HotPink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2">
 

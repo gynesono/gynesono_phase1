@@ -25,7 +25,7 @@ export default function handler(req, res) {
 
     var table = "counter";
     var returnMessage = "";
-    var counterName = "servicemasterdata";
+    var counterName = "receipt";
     var customerId = 3;
     //Get the current counter value for that counterName and customer ID
     //Add it by 1

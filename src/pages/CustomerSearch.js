@@ -3,6 +3,7 @@ import Header from "./Navigation/Header";
 import React, { Component } from 'react';
 import CustomerUpdate from "./CustomerUpdate";
 import { Link } from 'react-router-dom';
+import CustomerAccounting from "./CustomerAccounting";
 
 class CustomerSearch extends Component {
     state = {
@@ -11,6 +12,7 @@ class CustomerSearch extends Component {
         responseToPost: '',
         date: '',
         IsCustomerEdit: true,
+        billingButton: '',
     };
 
     componentDidMount() {
@@ -21,6 +23,27 @@ class CustomerSearch extends Component {
         this.setState({ Token: userToken });
         this.setState({ customerID: customerID });
 
+    }
+
+    handleSelectedRadioButton = async (e) => {
+        var radio = document.getElementsByName('patient');
+        for (var i = 0; i < radio.length; i++) {
+            if (radio[i].checked) {
+                let ptInfo = radio[i].value;
+                const ptInfoArray = ptInfo.split(",");
+                this.setState({ ptId: ptInfoArray[0] });
+                this.setState({ ptfName: ptInfoArray[1] });
+                this.setState({ ptlName: ptInfoArray[2] });
+                this.setState({ ptAge: ptInfoArray[3] });
+                this.setState({ ptLMP: ptInfoArray[4] });
+                this.setState({ ptMaritalStatus: ptInfoArray[5] });
+            }
+
+        }
+
+    }
+    handleBillingBtnClick = async e => { 
+        this.setState({ billingButton: true });
     }
 
     handleSubmit = async e => {
@@ -103,7 +126,13 @@ class CustomerSearch extends Component {
                     pAddress={this.state.pAddress} pCity={this.state.pCity} pState={this.state.PState} datee={this.state.LMP}
                     obsNobs={this.state.PObs} pMaritalStatus={this.state.PMStatus}
                 />)
-        }
+        }else if (this.state.billingButton) {
+            return (<div><CustomerAccounting
+                ptId = {this.state.ptId}
+                firstName={this.state.ptfName}
+                lastName={this.state.ptlName}
+                
+            /> </div>)}
         else {
             return (
                 <div className="main-wrapper">
@@ -166,7 +195,17 @@ class CustomerSearch extends Component {
 
                                                         <tr key={items.Patient_id}><td className="text-right">
                                                             <label className="form-check-label">
-                                                                <input type="radio" name="patient" value="Select" className="form-check-input" />
+                                                                <input type="radio" name="patient" value={
+                                                                    items.Patient_id
+                                                                    + "," + items.patient_details.patient_first_name
+                                                                    + "," + items.patient_details.patient_last_name
+                                                                    + "," + items.patient_details.patient_age
+                                                                    + "," + items.patient_details.lmp
+                                                                    + "," + items.patient_details.patient_marital_status
+                                                                }
+                                                                    className="form-check-input"
+                                                                    onClick={this.handleSelectedRadioButton}
+                                                                />
                                                             </label>
                                                         </td>
                                                             <td>{`${items.patient_details.patient_first_name} ${items.patient_details.patient_last_name}`}</td>
@@ -212,7 +251,7 @@ class CustomerSearch extends Component {
                             </div>
                             <div >&nbsp;<button className="btn btn-danger submit-btn">Non Obs</button>
                             </div>
-                            <div>&nbsp;<button className="btn btn-danger submit-btn">Billing</button>
+                            <div>&nbsp;<button className="btn btn-danger submit-btn" onClick={this.handleBillingBtnClick}>Billing</button>
                             </div>
                         </div>
                     </div>

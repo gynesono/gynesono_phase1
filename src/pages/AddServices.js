@@ -6,6 +6,7 @@ class AddServices extends Component {
         response: '',
         post: '',
         responseToPost: '',
+        
     };
 
     componentDidMount() {
@@ -15,10 +16,11 @@ class AddServices extends Component {
         const customerID = parseInt(customerIDString);
         this.setState({ Token: userToken });
         this.setState({ customerID: customerID });
-        this.handleOnload(customerID)
+        this.handleOnload(customerID);
     }
 
-    handleOnload = async (customerID) => {
+    handleOnload =  async (customerID)  => {
+        
         const requestHeader = {
             "content-Type": "application/json",
             accessIDKey: this.state.Token
@@ -30,10 +32,12 @@ class AddServices extends Component {
                 customerID: customerID
             }),
         });
+    
 
         const body = await response.json();
         this.setState({ responseToPost: body.Items });
     }
+  
 
     handleDate = (str) => {
 
@@ -114,7 +118,7 @@ class AddServices extends Component {
 const bodyString = JSON.stringify(body);
 window.alert(bodyString);
 
-
+window.location.reload(true);
     };
 
     render() {
@@ -132,13 +136,14 @@ window.alert(bodyString);
                         <form onSubmit={this.handleSubmit}>
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2">
-                    
-                           
+                
                                     <div className="mb-2 row">
                                         <div className="col-sm-2">
                                             <label>Service Category</label>
+                                            {/* <p style={{color:'pink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>  */}
                                         </div>
-
+                       
+                           
                                         <div className="col-sm-4">
                                             <select className="form-control" aria-label="Default select example" value={this.state.sCategory} onChange={(e) => this.setState({ sCategory: e.target.value })} required>
                                                 <option>Select</option>
@@ -175,7 +180,7 @@ window.alert(bodyString);
 
                                             <button className="btn btn-danger submit-btn" type="submit" >Save Services</button> &nbsp;
 
-                                            <button className="btn btn-danger submit-btn" type="submit" >Print</button> &nbsp;
+                                            <button className="btn btn-danger submit-btn" type="submit" onClick={() => window.print()}>Print</button> &nbsp;
 
                                             <button className="btn btn-danger submit-btn" type="submit" >Download</button> &nbsp;
 
@@ -229,7 +234,7 @@ window.alert(bodyString);
                                                                 if (confirmBox === true) {
                                                                     this.DeleteItems(items.service_id)
                                                                 }
-                                                            }}><i className="fa fa-trash-o m-r-5"></i> Delete</button>
+                                                            }}> <i className="fa fa-trash-o m-r-5"></i> Delete</button>
 
                                                         {/* <button className="dropdown-item" data-toggle="modal"
                                                             data-target="#delete_patient" onClick={() => this.DeleteItems(items.service_id)}><i className="fa fa-trash-o m-r-5"></i> Delete</button> */}

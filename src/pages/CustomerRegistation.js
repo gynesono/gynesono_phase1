@@ -81,7 +81,23 @@ class CustomerRegistation extends Component {
 
         this.setState({ responseToPost: body });
         // this.setState({ IsCustomerAdded: false });
-        console.log(response);
+       
+        this.setState({psalu:""});
+        this.setState({pGender:""});
+        this.setState({PAge:""});
+        this.setState({pEmail:""});
+        this.setState({pHusbandName:""});
+        this.setState({pAddress:""});
+        
+        this.setState({pCity:""});
+        this.setState({pState:""});
+        this.setState({pPortalConsent:""});
+        this.setState({ptFirstName:""});
+        this.setState({ptLastName:""});
+        this.setState({mn:""});
+        this.setState({datee:''});
+        this.setState({obsNobs:""});
+        this.setState({pMaritalStatus:""});
        
     };
    
@@ -110,7 +126,7 @@ class CustomerRegistation extends Component {
                                             <label>Salutation </label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <select className="form-control" aria-label="Default select example" name="psalu" value={this.state.value} onChange={(e) => this.setState({ psalu: e.target.value })}>
+                                            <select className="form-control" aria-label="Default select example" name="psalu" value={this.state.psalu} onChange={(e) => this.setState({ psalu: e.target.value })}>
                                                 <option>Select</option>
                                                 <option value="Mrs." >Mrs.</option>
                                                 <option value="Ms">Ms</option>
@@ -121,7 +137,7 @@ class CustomerRegistation extends Component {
                                             <label>Marital Status </label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <select className="form-control" aria-label="Default select example" value={this.state.value} onChange={(e) => this.setState({ pMaritalStatus: e.target.value })}>
+                                            <select className="form-control" aria-label="Default select example" value={this.state.pMaritalStatus} onChange={(e) => this.setState({ pMaritalStatus: e.target.value })}>
                                                 <option>Select</option>
                                                 <option value="Married" >Married</option>
                                                 <option value="Unmarried">Unmarried</option>
@@ -134,7 +150,7 @@ class CustomerRegistation extends Component {
                                             <label>First Name<span className="text-danger">*</span></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input className="form-control" type="text" name="patientFirstName" value={this.state.ptFirstName} onChange={e => this.setState({ ptFirstName: e.target.value })} required/>
+                                            <input className="form-control" type="text" name="patientFirstName" value={this.state.ptFirstName} onChange={e => this.setState({ ptFirstName: e.target.value })}  required/>
                                         </div>
                                         <div className="col-sm-2">
                                             <label>Last Name <span className="text-danger">*</span></label>
@@ -157,7 +173,7 @@ class CustomerRegistation extends Component {
                                                 </div>
                                                 <div className="form-check-inline">
                                                     <label className="form-check-label">
-                                                        <input type="radio" name="gender" value="Female" className="form-check-input" />Female
+                                                        <input type="radio" name="gender" checked="checked" value="Female" className="form-check-input" />Female
                                                     </label>
                                                 </div>
                                             </div>
@@ -232,7 +248,7 @@ class CustomerRegistation extends Component {
                                             <label>Email </label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input className="form-control" type="text" name="pEmail" value={this.state.pEmail} onChange={e => this.setState({ pEmail: e.target.value })} />
+                                            <input className="form-control" type="email" pattern=".+@gmail\.com" name="pEmail" placeholder="@gmail.com"  value={this.state.pEmail} onChange={e => this.setState({ pEmail: e.target.value })} />
                                         </div>
                                     </div>
                                     <div className="mb-2 row">
@@ -297,7 +313,7 @@ class CustomerRegistation extends Component {
                                     </div>
 
                                     <div className="mb-4 row">
-                                        <div className="col-xl-4">&nbsp;<button className="btn btn-danger submit-btn" type="submit" >Register
+                                        <div className="col-xl-4">&nbsp;<button className="btn btn-danger submit-btn" type="submit" >Save
                                             Customer</button>
                                         </div>
                                         <div className="col-xl-4">&nbsp;<Link to="/customeraccounting" className="btn btn-danger submit-btn">Billing</Link>
