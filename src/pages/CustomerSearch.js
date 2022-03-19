@@ -3,6 +3,7 @@ import Header from "./Navigation/Header";
 import React, { Component } from 'react';
 import CustomerUpdate from "./CustomerUpdate";
 import { Link } from 'react-router-dom';
+import DeletePatient from "./CustomerAccounting";
 import CustomerAccounting from "./CustomerAccounting";
 
 class CustomerSearch extends Component {
@@ -12,7 +13,12 @@ class CustomerSearch extends Component {
         responseToPost: '',
         date: '',
         IsCustomerEdit: true,
+        open: true,
+        ptLastName: '',
+        ptFirstName: '',
         billingButton: '',
+        nonObsBtn: '',
+        obsBtn: '',
     };
 
     componentDidMount() {
@@ -42,10 +48,16 @@ class CustomerSearch extends Component {
         }
 
     }
-    handleBillingBtnClick = async e => { 
+    handleBillingBtnClick = async e => {
         this.setState({ billingButton: true });
     }
+    handleObsBtnClick = async e => {
+        this.setState({ obsBtn: true });
+    }
 
+    handleNonObsBtnClick = async e => {
+        this.setState({ nonObsBtn: true })
+    }
     handleSubmit = async e => {
         e.preventDefault();
         const requestHeader = {
@@ -54,13 +66,14 @@ class CustomerSearch extends Component {
         };
         var ptLastName = this.state.ptLastName;
         var ptFirstName = this.state.ptFirstName;
+        console.log(ptLastName);
         if (!ptLastName) {
             this.setState({ ptLastName: "" });
         }
         if (!ptFirstName) {
             this.setState({ ptFirstName: "" });
         }
-        if (ptLastName == null) { ptLastName = ""; }
+
         const response = await fetch('http://localhost:3000/api/Patients/getPatientsByName', {
             method: 'POST',
             headers: requestHeader,
@@ -115,7 +128,12 @@ class CustomerSearch extends Component {
         this.setState({ IsCustomerEdit: false });
         console.log(items)
     }
-
+    delete = (items) => {
+        this.setState({ open: !this.state.open })
+        this.setState({ Ptid: items.Patient_id });
+        this.setState({ FiName: items.patient_details.patient_first_name });
+        this.setState({ LaName: items.patient_details.patient_last_name });
+    }
     render() {
         if (!this.state.IsCustomerEdit) {
             return (
@@ -126,16 +144,24 @@ class CustomerSearch extends Component {
                     pAddress={this.state.pAddress} pCity={this.state.pCity} pState={this.state.PState} datee={this.state.LMP}
                     obsNobs={this.state.PObs} pMaritalStatus={this.state.PMStatus}
                 />)
+        }
+        else if (!this.state.open) {
+            return (
+                <DeletePatient Patient_id={this.state.Ptid} ptFirstName={this.state.FiName} ptLastName={this.state.LaName} />
+            )
+
         }else if (this.state.billingButton) {
             return (<div><CustomerAccounting
-                ptId = {this.state.ptId}
+                ptId={this.state.ptId}
                 firstName={this.state.ptfName}
                 lastName={this.state.ptlName}
-                
-            /> </div>)}
+
+            /> </div>)
+        }
         else {
             return (
                 <div className="main-wrapper">
+
                     <div className="page-wrapper">
                         <div className="content">
                             <Header />
@@ -202,9 +228,8 @@ class CustomerSearch extends Component {
                                                                     + "," + items.patient_details.patient_age
                                                                     + "," + items.patient_details.lmp
                                                                     + "," + items.patient_details.patient_marital_status
-                                                                }
-                                                                    className="form-check-input"
-                                                                    onClick={this.handleSelectedRadioButton}
+                                                                } className="form-check-input" 
+                                                                onClick={this.handleSelectedRadioButton}
                                                                 />
                                                             </label>
                                                         </td>
@@ -222,18 +247,22 @@ class CustomerSearch extends Component {
                                                                     <div className="dropdown-menu dropdown-menu-right">
                                                                         <button className="dropdown-item" onClick={() => this.handleUpdate(items)}><i
                                                                             className="fa fa-pencil m-r-5"></i> Edit</button>
+                                                                        {/* <button
+                                                            className="dropdown-item" data-toggle="modal"
+                                                            onClick={() => {
+                                                                const confirmBox = window.confirm(
+                                                                    "Do you really want to delete Patient?"
+                                                                )
+                                                                if (confirmBox === true) {
+                                                                    this.DeleteItems(items.Patient_id)
+                                                                }
+                                                            }}><i className="fa fa-trash-o m-r-5"></i> Delete</button> */}
                                                                         <button
-                                                                            className="dropdown-item" data-toggle="modal"
-                                                                            onClick={() => {
-                                                                                const confirmBox = window.confirm(
-                                                                                    "Do you really want to delete Patient?"
-                                                                                )
-                                                                                if (confirmBox === true) {
-                                                                                    this.DeleteItems(items.Patient_id)
-                                                                                }
-                                                                            }}><i className="fa fa-trash-o m-r-5"></i> Delete</button>
+                                                                            className="dropdown-item" data-toggle="modal" onClick={() => this.delete(items)}
+                                                                        ><i className="fa fa-trash-o m-r-5"></i> Delete</button>
 
                                                                     </div>
+
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -242,14 +271,15 @@ class CustomerSearch extends Component {
                                                     ))}</tbody>
                                             )}
                                         </table>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="mb-3 row">
-                            <div >&nbsp;<button className="btn btn-danger submit-btn">Obs</button>
+                        <div ><button id="obs-click" className="btn btn-danger submit-btn" onClick={this.handleObsBtnClick}>Obs Visit</button>
                             </div>
-                            <div >&nbsp;<button className="btn btn-danger submit-btn">Non Obs</button>
+                            <div ><button id="non-obs-click" className="btn btn-danger submit-btn" onClick={this.handleNonObsBtnClick}>Non-Obs Visit</button>
                             </div>
                             <div>&nbsp;<button className="btn btn-danger submit-btn" onClick={this.handleBillingBtnClick}>Billing</button>
                             </div>
@@ -263,4 +293,5 @@ class CustomerSearch extends Component {
         }
     }
 }
+
 export default CustomerSearch;

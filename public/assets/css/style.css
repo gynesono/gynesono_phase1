@@ -58,6 +58,27 @@ Version      : 1.0
 -----------------------*/
 
 @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,700');
+.open{
+    display: block;
+    width: 430px;
+    height: 190px;
+    background-color: rgb(250, 215, 221);
+    z-index: 1;
+    position: absolute;
+	border-style: outset;
+    
+}
+.main_view{
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.close{
+    display: none;
+}
 .btn-primary {
     border-color: transparent;
     background-color: hotpink !important;

@@ -1,12 +1,16 @@
 import Leftmenu from './Navigation/Leftmenu';
 import Header from './Navigation/Header';
 import React, { Component } from "react";
+import PrintServices from './PrintServices';
+import DeleteServices from "./DeleteServices";
 class AddServices extends Component {
     state = {
         response: '',
         post: '',
         responseToPost: '',
-        
+        responseToPostt: '',
+        Isprint: true,
+        open: true,
     };
 
     componentDidMount() {
@@ -89,15 +93,30 @@ class AddServices extends Component {
 
 
     }
+print=()=>
+{
+    this.setState({ Isprint: false });
+}
+delete=(items)=>
 
+{
+  this.setState({open: !this.state.open})
+  this.setState({ svid: items.service_id });
+  this.setState({ svName: items.serviceName });
+  this.setState({ svCategory: items.serviceCategory });
+ 
+}
 
     handleSubmit = async e => {
         e.preventDefault();
+        const requestHeader = {
+            "content-Type": "application/json",
+            accessIDKey: this.state.Token
+        };
+        console.log(this.state.Token);
         const requestOptions = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: requestHeader,
 
             body: JSON.stringify({
                 serviceCategory: this.state.sCategory,
@@ -110,18 +129,28 @@ class AddServices extends Component {
         // After Appointment Added
        
         const response = await fetch('http://localhost:3000/api/Admin/postBillingMasterData', requestOptions)
-        //.then(response => alert('Response! added' ))
-        // .then(response => alert('Response! ' + error.message)).catch(error => alert('Error! ' + error.message))
-        const body = await response.json();
-        // this.setState({ responseToPost: body.Items });
-        // this.setState({ responseToPost: body.Items });
-const bodyString = JSON.stringify(body);
-window.alert(bodyString);
+        
+        const body = await response.text();
 
-window.location.reload(true);
+        this.setState({ responseToPostt: body });
+  
+
+//window.location.reload(true);
     };
 
     render() {
+        if (!this.state.Isprint) {
+            return (
+               
+              <PrintServices/>)
+          }
+         else if(!this.state.open){
+            return(
+                <DeleteServices Service_id={this.state.svid} Service_Name={this.state.svName} Service_Category={this.state.svCategory}/>
+            )
+
+        } 
+          else {
         return (
 
             <div className="main-wrapper">
@@ -133,14 +162,16 @@ window.location.reload(true);
                         <div className="row">
                             <div className="col-lg-8 offset-lg-2"><h4 className="page-title">Add Services</h4></div>
                         </div>
+                        <p style={{color:'HotPink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPostt}</p>
                         <form onSubmit={this.handleSubmit}>
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2">
                 
                                     <div className="mb-2 row">
                                         <div className="col-sm-2">
+                                     
                                             <label>Service Category</label>
-                                            {/* <p style={{color:'pink', fontSize:'14px',fontWeight:'bold', textAlign:'center' }}>{this.state.responseToPost}</p>  */}
+                                        
                                         </div>
                        
                            
@@ -150,11 +181,8 @@ window.location.reload(true);
                                                 <option value="Bloodtest" >Bloodtest</option>
                                                 <option value="Sonography">Sonography</option>
                                                 <option value="OPD" >OPD</option>
-                                                <option value="Xray">Xray</option>
-                                                <option value="MRI" >MRI</option>
-                                                <option value="CT scan">CT scan</option>
-                                                <option value="1st Visit">1st Visit</option>
-                                                <option value="2nd Visit">2nd Visit</option>
+                                                <option value="First Visit">First Visit</option>
+                                                <option value="Second Visit">Second Visit</option>
                                             </select>
                                         </div>
                                         <div className="col-sm-2">
@@ -180,8 +208,8 @@ window.location.reload(true);
 
                                             <button className="btn btn-danger submit-btn" type="submit" >Save Services</button> &nbsp;
 
-                                            <button className="btn btn-danger submit-btn" type="submit" onClick={() => window.print()}>Print</button> &nbsp;
-
+                                            {/* <button className="btn btn-danger submit-btn" type="submit" onClick={() => window.print()}>Print</button> &nbsp; */}
+                                            <button className="btn btn-danger submit-btn" type="submit" onClick={() => this.print()}>Print</button> &nbsp;
                                             <button className="btn btn-danger submit-btn" type="submit" >Download</button> &nbsp;
 
 
@@ -225,19 +253,13 @@ window.location.reload(true);
                                                             data-target="#delete_patient" onClick={() => this.handleEdit(items.service_id)}><i
                                                                 className="fa fa-pencil m-r-5"></i> Edit</button>
 
-                                                        <button
-                                                            className="dropdown-item" data-toggle="modal"
-                                                            onClick={() => {
-                                                                const confirmBox = window.confirm(
-                                                                    "Do you really want to delete Patient?"
-                                                                )
-                                                                if (confirmBox === true) {
-                                                                    this.DeleteItems(items.service_id)
-                                                                }
-                                                            }}> <i className="fa fa-trash-o m-r-5"></i> Delete</button>
+                                          
 
                                                         {/* <button className="dropdown-item" data-toggle="modal"
                                                             data-target="#delete_patient" onClick={() => this.DeleteItems(items.service_id)}><i className="fa fa-trash-o m-r-5"></i> Delete</button> */}
+                                                            <button
+                                                            className="dropdown-item" data-toggle="modal" onClick={()=>this.delete(items)}
+                                                           ><i className="fa fa-trash-o m-r-5"></i> Delete</button>
                                                     </div>
                                                 </div>
                                             </td>
@@ -257,7 +279,7 @@ window.location.reload(true);
 
         );
     }
-}
+}}
 export default AddServices;
 
 
