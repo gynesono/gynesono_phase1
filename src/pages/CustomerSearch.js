@@ -73,8 +73,9 @@ class CustomerSearch extends Component {
         if (!ptFirstName) {
             this.setState({ ptFirstName: "" });
         }
-
-        const response = await fetch('http://localhost:3000/api/Patients/getPatientsByName', {
+        
+        const response = await fetch('https://3sy39gj6gl.execute-api.us-east-1.amazonaws.com/preprod/getpatientsbyname', {
+        //const response = await fetch('http://localhost:3000/api/Patients/getPatientsByName', {
             method: 'POST',
             headers: requestHeader,
 

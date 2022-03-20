@@ -29,7 +29,9 @@ class AddServices extends Component {
             "content-Type": "application/json",
             accessIDKey: this.state.Token
         };
-        const response = await fetch('http://localhost:3000/api/Admin/getBillingMasterData', {
+        
+        const response = await fetch('https://xl73257esa.execute-api.us-east-1.amazonaws.com/preprod/getservicesmasterdata', {
+        //const response = await fetch('http://localhost:3000/api/Admin/getBillingMasterData', {
             method: 'POST',
             headers: requestHeader,
             body: JSON.stringify({
@@ -55,8 +57,9 @@ class AddServices extends Component {
             "content-Type": "application/json",
             accessIDKey: this.state.Token
         };
-
-        const response = await fetch('http://localhost:3000/api/Admin/getBillingMasterDataById', {
+        
+        const response = await fetch('https://xl73257esa.execute-api.us-east-1.amazonaws.com/preprod/getservicemasterdatabyid', {
+        //const response = await fetch('http://localhost:3000/api/Admin/getBillingMasterDataById', {
 
             method: 'POST',
             headers: requestHeader,
@@ -82,7 +85,9 @@ class AddServices extends Component {
             accessIDKey: this.state.Token
         };
         window.location.reload(true);
-        const response = await fetch('http://localhost:3000/api/Admin/dropBillingTableRow', {
+        
+        const response = await fetch('https://xl73257esa.execute-api.us-east-1.amazonaws.com/preprod/deleteservicebyid', {
+        //const response = await fetch('http://localhost:3000/api/Admin/dropBillingTableRow', {
             method: 'POST',
             headers: requestHeader,
             body: JSON.stringify({
@@ -127,15 +132,16 @@ delete=(items)=>
 
         }
         // After Appointment Added
-       
-        const response = await fetch('http://localhost:3000/api/Admin/postBillingMasterData', requestOptions)
+        
+        const response = await fetch('https://xl73257esa.execute-api.us-east-1.amazonaws.com/preprod/postservicemasterdata', requestOptions)
+        //const response = await fetch('http://localhost:3000/api/Admin/postBillingMasterData', requestOptions)
         
         const body = await response.text();
 
         this.setState({ responseToPostt: body });
   
 
-//window.location.reload(true);
+
     };
 
     render() {
@@ -178,7 +184,7 @@ delete=(items)=>
                                         <div className="col-sm-4">
                                             <select className="form-control" aria-label="Default select example" value={this.state.sCategory} onChange={(e) => this.setState({ sCategory: e.target.value })} required>
                                                 <option>Select</option>
-                                                <option value="Bloodtest" >Bloodtest</option>
+                                                <option value="Blood Test" >Blood Test</option>
                                                 <option value="Sonography">Sonography</option>
                                                 <option value="OPD" >OPD</option>
                                                 <option value="First Visit">First Visit</option>

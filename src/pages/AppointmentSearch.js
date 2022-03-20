@@ -31,7 +31,7 @@ class AppointmentSearch extends Component {
       "content-Type": "application/json",
       accessIDKey: this.state.Token
     };
-    const response = await fetch('http://localhost:3000/api/Appointments/getAppointmentsforDash', {
+    const response = await fetch('https://t4zz9wmi6f.execute-api.us-east-1.amazonaws.com/preprod/getappointmentsfordash', {
       method: 'POST',
       headers: requestHeader,
       body: JSON.stringify({
@@ -58,7 +58,7 @@ class AppointmentSearch extends Component {
     };
    
 
-    const response = await fetch('http://localhost:3000/api/Appointments/setAppointmentsStatus', {
+    const response = await fetch('https://t4zz9wmi6f.execute-api.us-east-1.amazonaws.com/preprod/setappointmentstatus', {
       method: 'POST',
       headers: requestHeader,
       body: JSON.stringify({
@@ -77,7 +77,8 @@ class AppointmentSearch extends Component {
       "content-Type": "application/json",
       accessIDKey: this.state.Token
     };
-    const response = await fetch('http://localhost:3000/api/Appointments/getAllAppointmentsByDate', {
+    const response = await fetch('https://t4zz9wmi6f.execute-api.us-east-1.amazonaws.com/preprod/getallappointmentsbydate', {
+    //const response = await fetch('http://localhost:3000/api/Appointments/getAllAppointmentsByDate', {
       method: 'POST',
       headers: requestHeader,
       body: JSON.stringify({

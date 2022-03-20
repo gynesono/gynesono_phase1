@@ -10,6 +10,7 @@ export default function handler(req, res) {
         var table = "billingmasterdata";
         var serviceID = 1;
         var customerID = 3;
+        var customer_category="Gynecologist";
         var serviceCategory = "Bloodtest";
         var serviceName = "CBC";
         var serviceCost = 1000;
@@ -21,7 +22,8 @@ export default function handler(req, res) {
                 "customer_id": customerID,
                 "service_category": serviceCategory,
                 "service_name" : serviceName,
-                "service_cost" : serviceCost
+                "service_cost" : serviceCost,
+                "customer_category": customer_category
             }
         };  
         try{

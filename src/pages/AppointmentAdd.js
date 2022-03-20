@@ -58,11 +58,13 @@ class AppointmentAdd extends Component {
                 appointmentStatus: 'Open'
             }),
         }
-        const response = await fetch('http://localhost:3000/api/Appointments/postAppointments', requestOptions)
+        //const response = await fetch('http://localhost:3000/api/Appointments/postAppointments', requestOptions)
+        const response = await fetch('https://t4zz9wmi6f.execute-api.us-east-1.amazonaws.com/preprod/postappointment', requestOptions)
         
         const body = await response.text();
+        //const body = await response.value();
 
-        this.setState({ responseToPost: body });
+        this.setState({ responseToPost : body });
         this.setState({ptFirstName:""});
         this.setState({ptLastName:""});
         this.setState({mn:""});
@@ -118,7 +120,7 @@ class AppointmentAdd extends Component {
                                             <label>Time</label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="time" className="form-control" name="time" value={this.state.tm} onChange={e => this.setState({ tm: e.target.value })} required />
+                                            <input type="time" className="form-control" name="time" value={this.state.tm} onChange={e => this.setState({ tm: e.target.value })} required pattern="[0-9]{2}:[0-9]{2}" />
                                         </div>
                                     </div>
                                     <div className="mb-2 row">

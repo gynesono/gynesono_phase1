@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Dashboard from './pages/Dashboard';
+
+import { useNavigate } from "react-router-dom";
 //import './Login.css';
 
 async function loginUser(credentials) {
@@ -21,6 +23,8 @@ export default function Login({ setToken }) {
   const [email, setemail] = useState();
   const [responseToPost, setPost] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
  
   //http://localhost:3000/api/Login/getLogin
   const handleSubmit = async e => {
@@ -80,7 +84,7 @@ export default function Login({ setToken }) {
     //setToken(token);
   }
   if (isLoggedIn) {
-   return (<div><Dashboard /> </div>)
+   return (<div>{navigate('/dashboard')}</div>)
    } else {
     return(
       <div className='App'>                

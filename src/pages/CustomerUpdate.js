@@ -62,7 +62,9 @@ class CustomerRegistation extends Component {
             "content-Type": "application/json",
             accessIDKey: this.state.Token
         };
-        const response = await fetch('http://localhost:3000/api/Patients/setPatient', {
+        
+        const response = await fetch('https://3sy39gj6gl.execute-api.us-east-1.amazonaws.com/preprod/setpatient', {
+        //const response = await fetch('http://localhost:3000/api/Patients/setPatient', {
             method: 'POST',
             headers: requestHeader,
             body: JSON.stringify({
