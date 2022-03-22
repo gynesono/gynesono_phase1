@@ -5,6 +5,8 @@ import CustomerUpdate from "./CustomerUpdate";
 import { Link } from 'react-router-dom';
 import DeletePatient from "./CustomerAccounting";
 import CustomerAccounting from "./CustomerAccounting";
+import ObsCustomerVisit from "./ObsCustomerVisit";
+import NonObsCustomerVisit from "./NonObsCustomerVisit";
 
 class CustomerSearch extends Component {
     state = {
@@ -38,8 +40,8 @@ class CustomerSearch extends Component {
                 let ptInfo = radio[i].value;
                 const ptInfoArray = ptInfo.split(",");
                 this.setState({ ptId: ptInfoArray[0] });
-                this.setState({ ptfName: ptInfoArray[1] });
-                this.setState({ ptlName: ptInfoArray[2] });
+                this.setState({ ptFirstName: ptInfoArray[1] });
+                this.setState({ ptLastName: ptInfoArray[2] });
                 this.setState({ ptAge: ptInfoArray[3] });
                 this.setState({ ptLMP: ptInfoArray[4] });
                 this.setState({ ptMaritalStatus: ptInfoArray[5] });
@@ -132,8 +134,8 @@ class CustomerSearch extends Component {
     delete = (items) => {
         this.setState({ open: !this.state.open })
         this.setState({ Ptid: items.Patient_id });
-        this.setState({ FiName: items.patient_details.patient_first_name });
-        this.setState({ LaName: items.patient_details.patient_last_name });
+        this.setState({ ptFirstName: items.patient_details.patient_first_name });
+        this.setState({ ptLastName: items.patient_details.patient_last_name });
     }
     render() {
         if (!this.state.IsCustomerEdit) {
@@ -148,15 +150,33 @@ class CustomerSearch extends Component {
         }
         else if (!this.state.open) {
             return (
-                <DeletePatient Patient_id={this.state.Ptid} ptFirstName={this.state.FiName} ptLastName={this.state.LaName} />
+                <DeletePatient Patient_id={this.state.Ptid} ptFirstName={this.state.ptFirstName} ptLastName={this.state.ptLastName} />
             )
 
         }else if (this.state.billingButton) {
             return (<div><CustomerAccounting
                 ptId={this.state.ptId}
-                firstName={this.state.ptfName}
-                lastName={this.state.ptlName}
+                firstName={this.state.ptFirstName}
+                lastName={this.state.ptLastName}
 
+            /> </div>)
+        } else if (this.state.obsBtn) {
+            return (<div><ObsCustomerVisit
+                patientID={this.state.patientID}
+                firstName={this.state.ptFirstName}
+                lastName={this.state.ptLastName}
+                age={this.state.ptAge}
+                lmp={this.state.ptLMP}
+                maritalStatus={this.state.ptMaritalStatus}
+            /> </div>)
+        } else if (this.state.nonObsBtn) {
+            return (<div><NonObsCustomerVisit
+                patientID={this.state.patientID}
+                firstName={this.state.ptFirstName}
+                lastName={this.state.ptLastName}
+                age={this.state.ptAge}
+                lmp={this.state.ptLMP}
+                maritalStatus={this.state.ptMaritalStatus}
             /> </div>)
         }
         else {

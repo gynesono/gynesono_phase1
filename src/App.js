@@ -14,6 +14,12 @@ import React from 'react';
 import { BrowserRouter} from 'react-router-dom';
 import {Routes } from 'react-router-dom';
 import {Route } from 'react-router-dom';
+import ObsCustomerVisit from './pages/ObsCustomerVisit';
+import ObsAddCustomerVisit from './pages/ObsAddCustomerVisit'
+import ObsCustomerService from './pages/ObsCustomerService';
+import NonObsAddCustomerVisit from './pages/NonObsAddCustomerVisit';
+import NonObsCustomerVisit from './pages/NonObsCustomerVisit';
+import NonObsCustomerService from './pages/NonObsCustomerService';
 
 function App() {
   return (
@@ -36,6 +42,12 @@ function App() {
             <Route exact path="/customerAccounting" element={<CustomerAccounting/>} />
             <Route exact path="/appointmentUpdate/:appointment_id" element={<AppointmentUpdate/>} />
             <Route exact path="/addServices" element={<AddServices/>} />
+            <Route exact path="/obsCustomerVisit" element={<ObsCustomerVisit/>} />
+            <Route exact path="/obsCustomerService" element={<ObsCustomerService/>} />
+            <Route exact path="/obsAddCustomerVisit" element={<ObsAddCustomerVisit/>} />
+            <Route exact path="/nonObsCustomerVisit" element={<NonObsCustomerVisit/>} />
+            <Route exact path="/nonObsAddCustomerVisit" element={<NonObsAddCustomerVisit/>} />
+            <Route exact path="/nonObsCustomerService" element={<NonObsCustomerService/>} />
 
        
              
